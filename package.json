@@ -1,0 +1,17 @@
+{
+  "name": "publishing_sensor_data_with_mqtt",
+  "version": "1.0.0",
+  "description": "Example publishing a temperature sensor over MQTT on Intel Edison",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "edison"
+  ],
+  "author": "Daniel Holmlund",
+  "license": "MIT",
+  "dependencies": {
+    "winston": "^1.0.1"
+  }
+}
