@@ -45,24 +45,24 @@ mqttClient.on('connect', function () {
     logger.info("Connected to MQTT server");
 });
 
-// Create the temperature sensor object using AIO pin 0
-var temp = new groveSensor.GroveTemp(0);
+// Create the light sensor object using AIO pin 0
+var light = new groveSensor.GroveLight(0);
 
 
-var temperatureLoop = function() {
+var sensorLoop = function() {
 
     // Build JSON structure to hold
     // data on the edge network
     var sensorData = {
-        sensor_id: temp.name,
-        value: temp.value()
+        sensor_id: light.name,
+        value: light.value()
     };
 
     mqttClient.publish (
-        "sensors/temperature/data",
+        "sensors/light/data",
         JSON.stringify(sensorData)
     );
 };
 
 // Call the temperature loop function
-setInterval( temperatureLoop, 1000 );
+setInterval( sensorLoop, 1000 );
