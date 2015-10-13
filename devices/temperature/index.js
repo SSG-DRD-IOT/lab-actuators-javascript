@@ -33,6 +33,9 @@ var logger = require('../logger.js');
 // Load Grove module
 var groveSensor = require('jsupm_grove');
 
+// Load the database models
+var Data = require('intel-commerical-edge-network-database-models').DataModel;
+
 // Print the server status
 logger.info("Edge Device Daemon is starting");
 
@@ -48,15 +51,14 @@ mqttClient.on('connect', function () {
 // Create the temperature sensor object using AIO pin 0
 var temp = new groveSensor.GroveTemp(0);
 
-
 var temperatureLoop = function() {
 
     // Build JSON structure to hold
     // data on the edge network
-    var sensorData = {
+    var sensorData = new Data({
         sensor_id: temp.name,
         value: temp.value()
-    };
+    });
 
     mqttClient.publish (
         "sensors/temperature/data",
