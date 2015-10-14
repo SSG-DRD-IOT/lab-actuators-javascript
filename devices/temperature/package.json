@@ -12,6 +12,7 @@
   "author": "Daniel Holmlund",
   "license": "MIT",
   "dependencies": {
-    "winston": "^1.0.1"
+    "winston": "^1.0.1",
+	"intel-commerical-edge-network-database-models":"^1.0.1"
   }
 }

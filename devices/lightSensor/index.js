@@ -21,17 +21,20 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-var config = require("./config.json");
+var config = require("../../config.json");
 
 // Require the MQTT connections
 var mqtt = require('mqtt');
 var client  = mqtt.connect(config.mqtt.url);
 
 // Require the Winston Logger
-var logger = require('../logger.js');
+var logger = require('../../logger.js');
 
 // Load Grove module
 var groveSensor = require('jsupm_grove');
+
+// Load the database models
+var Data = require('intel-commerical-edge-network-database-models').DataModel;
 
 // Print the server status
 logger.info("Edge Device Daemon is starting");
@@ -48,15 +51,14 @@ mqttClient.on('connect', function () {
 // Create the light sensor object using AIO pin 0
 var light = new groveSensor.GroveLight(0);
 
-
 var sensorLoop = function() {
 
     // Build JSON structure to hold
     // data on the edge network
-    var sensorData = {
+    var sensorData = new Data({
         sensor_id: light.name,
         value: light.value()
-    };
+    });
 
     mqttClient.publish (
         "sensors/light/data",
