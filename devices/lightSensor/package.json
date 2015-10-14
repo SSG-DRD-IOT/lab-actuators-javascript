@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "winston": "^1.0.1",
-	"intel-commerical-edge-network-database-models":"^1.0.1"
+	"intel-commerical-edge-network-database-models":"latest",
+	"mqtt": "^1.3"
   }
 }
