@@ -56,7 +56,7 @@ var sensorLoop = function() {
     // Build JSON structure to hold
     // data on the edge network
     var sensorData = new Data({
-        sensor_id: light.name,
+        sensor_id: light.name(),
         value: light.value()
     });
 
