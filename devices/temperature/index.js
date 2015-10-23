@@ -62,7 +62,7 @@ var temperatureLoop = function() {
 
     mqttClient.publish (
         "sensors/temperature/data",
-        JSON.stringify(sensorData)
+        JSON.stringify(sensorData.json)
     );
 };
 
