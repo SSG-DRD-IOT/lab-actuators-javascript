@@ -56,7 +56,7 @@ var temperatureLoop = function() {
     // Build JSON structure to hold
     // data on the edge network
     var sensorData = new Data({
-        sensor_id: temp.name,
+        sensor_id: "temperature",
         value: temp.value()
     });
 
