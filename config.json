@@ -1,5 +1,5 @@
 {
     "mqtt" : {
-        "url" : "mqtt://localhost"
+        "url" : "mqtt://192.168.1.1"
     }
 }
