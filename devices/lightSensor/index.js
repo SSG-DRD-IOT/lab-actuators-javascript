@@ -60,10 +60,10 @@ var sensorLoop = function() {
 
     // Build JSON structure to hold
     // data on the edge network
-    var sensorData = new Data({
+    var sensorData = {
         sensor_id: "light",
         value: light.value()
-    });
+    };
 
     mqttClient.publish (
         "sensors/light/data",
