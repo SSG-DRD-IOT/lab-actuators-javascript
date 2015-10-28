@@ -62,7 +62,8 @@ var sensorLoop = function() {
     // data on the edge network
     var sensorData = {
         sensor_id: "light",
-        value: light.value()
+        value: light.value(),
+        timestamp: Date.now()
     };
 
     mqttClient.publish (
