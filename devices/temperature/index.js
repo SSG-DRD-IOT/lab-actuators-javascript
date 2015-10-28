@@ -67,7 +67,7 @@ var temperatureLoop = function() {
     // data on the edge network
     var sensorData = {
         sensor_id: "temperature",
-        value: temp.value(),
+        value: scaled_value,
         timestamp: Date.now()
     };
 
