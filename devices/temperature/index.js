@@ -21,11 +21,11 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-var config = require("config.json");
+var config = require("./config.json");
 
 // Require the MQTT connections
 var mqtt = require('mqtt');
-var client  = mqtt.connect(config.mqtt.url);
+var client  = mqtt.connect(config.mqtt.uri);
 
 // Require the Winston Logger
 var logger = require('./logger.js');
