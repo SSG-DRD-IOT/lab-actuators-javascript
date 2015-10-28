@@ -21,14 +21,14 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-var config = require("./config.json");
+var config = require("../../config.json");
 
 // Require the MQTT connections
 var mqtt = require('mqtt');
 var client  = mqtt.connect(config.mqtt.url);
 
 // Require the Winston Logger
-var logger = require('../logger.js');
+var logger = require('./logger.js');
 
 // Load Grove module
 var groveSensor = require('jsupm_grove');
@@ -50,19 +50,32 @@ mqttClient.on('connect', function () {
 
 // Create the temperature sensor object using AIO pin 0
 var temp = new groveSensor.GroveTemp(0);
+var groveRotary = new groveSensor.GroveRotary(3);
 
 var temperatureLoop = function() {
 
+    var data = temp.value();
+    var numericValue = +data;
+    var rel = groveRotary.rel_value() * 0.05;
+    var firstPassData = numericValue + rel;
+    var newdata = firstPassData.toFixed(0);
+
+    logger.info("temperature = " + newdata);
+    
     // Build JSON structure to hold
     // data on the edge network
     var sensorData = new Data({
-        sensor_id: temp.name,
-        value: temp.value()
+        sensor_id: "temperature",
+        value: newdata
     });
 
     mqttClient.publish (
         "sensors/temperature/data",
-        JSON.stringify(sensorData)
+        JSON.stringify({
+		sensor_id: sensorData.sensor_id,
+		value: sensorData.value,
+		timestamp: Date.now()
+	})
     );
 };
 
