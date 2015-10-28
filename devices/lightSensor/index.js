@@ -25,7 +25,6 @@ var config = require("./config.json");
 
 // Require the MQTT connections
 var mqtt = require('mqtt');
-var client  = mqtt.connect(config.mqtt.url);
 
 // Require the Winston Logger
 var logger = require('./logger.js');
@@ -37,7 +36,7 @@ var groveSensor = require('jsupm_grove');
 logger.info("Edge Device Daemon is starting");
 
 // Connect to the MQTT server
-var mqttClient  = mqtt.connect(config.mqtt.url);
+var mqttClient  = mqtt.connect(config.mqtt.uri);
 
 // MQTT connection function
 mqttClient.on('connect', function () {
