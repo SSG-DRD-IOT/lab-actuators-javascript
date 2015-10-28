@@ -21,7 +21,7 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-var config = require("../../config.json");
+var config = require("config.json");
 
 // Require the MQTT connections
 var mqtt = require('mqtt');
@@ -33,9 +33,6 @@ var logger = require('./logger.js');
 // Load Grove module
 var groveSensor = require('jsupm_grove');
 
-// Load the database models
-var Data = require('intel-commerical-edge-network-database-models').DataModel;
-
 // Print the server status
 logger.info("Edge Device Daemon is starting");
 
@@ -44,7 +41,16 @@ var mqttClient  = mqtt.connect(config.mqtt.url);
 
 // MQTT connection function
 mqttClient.on('connect', function () {
-    mqttClient.publish("announcements", JSON.stringify({"announcement" : "light"}));
+    mqttClient.publish("announcements", JSON.stringify({
+        id : "light",
+        name : "light",
+        description: "A light sensor",
+        maxfrequency: 1000,
+        frequency: 1000,
+        active: true,
+        ioType: "analog"
+    }));
+
     logger.info("Connected to MQTT server");
 });
 

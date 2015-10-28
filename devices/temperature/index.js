@@ -21,7 +21,7 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-var config = require("../../config.json");
+var config = require("config.json");
 
 // Require the MQTT connections
 var mqtt = require('mqtt');
@@ -33,9 +33,6 @@ var logger = require('./logger.js');
 // Load Grove module
 var groveSensor = require('jsupm_grove');
 
-// Load the database models
-var Data = require('intel-commerical-edge-network-database-models').DataModel;
-
 // Print the server status
 logger.info("Edge Device Daemon is starting");
 
@@ -44,7 +41,16 @@ var mqttClient  = mqtt.connect(config.mqtt.url);
 
 // MQTT connection function
 mqttClient.on('connect', function () {
-    mqttClient.publish("announcements", JSON.stringify({"announcement" : "light"}));
+    mqttClient.publish("announcements", JSON.stringify({
+        id : "temperature",
+        name : "temperature",
+        description: "A temperature sensor",
+        maxfrequency: 1000,
+        frequency: 1000,
+        active: true,
+        ioType: "analog"
+    }));
+
     logger.info("Connected to MQTT server");
 });
 
@@ -54,30 +60,34 @@ var groveRotary = new groveSensor.GroveRotary(3);
 
 var temperatureLoop = function() {
 
+    // Get a temperature value from the sensor
     var data = temp.value();
-    var numericValue = +data;
-    var rel = groveRotary.rel_value() * 0.05;
-    var firstPassData = numericValue + rel;
-    var newdata = firstPassData.toFixed(0);
+    var scaled_value = scaleValue(data);
 
-    logger.info("temperature = " + newdata);
-    
     // Build JSON structure to hold
     // data on the edge network
-    var sensorData = new Data({
+    var sensorData = {
         sensor_id: "temperature",
-        value: newdata
-    });
+        value: temp.value(),
+        timestamp: Date.now()
+    };
 
     mqttClient.publish (
         "sensors/temperature/data",
-        JSON.stringify({
-		sensor_id: sensorData.sensor_id,
-		value: sensorData.value,
-		timestamp: Date.now()
-	})
+        JSON.stringify(sensorData)
     );
 };
 
 // Call the temperature loop function
 setInterval( temperatureLoop, 1000 );
+
+
+// Added to allow a potientiometer to scale
+// the value up or down
+var scaleValue = function (value) {
+    var numericValue = +value;
+    var rel = groveRotary.rel_value() * 0.05;
+    var firstPassData = numericValue + rel;
+    return firstPassData.toFixed(0);
+
+};
