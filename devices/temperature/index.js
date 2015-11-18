@@ -28,7 +28,7 @@ var mqtt = require('mqtt');
 
 // Require the Winston Logger
 var logger = require('./logger.js');
-
+ 
 // Load Grove module
 var groveSensor = require('jsupm_grove');
 
