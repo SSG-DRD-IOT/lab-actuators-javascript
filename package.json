@@ -1,0 +1,16 @@
+{
+  "name": "temperature-sensor",
+  "version": "1.0.0",
+  "description": "Example of reading the temperature and displaying it on a LCD screen",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "edison"
+  ],
+  "author": "Daniel Holmlund",
+  "license": "MIT",
+  "dependencies": {
+  }
+}
